@@ -9,6 +9,7 @@ namespace TiendaTcgApi.Data
         {
         }
 
-        DbSet<Producto> Productos { get; set; } = null!;
+        public DbSet<Producto> Productos { get; set; } = null!;
+        public DbSet<Categoria> Categorias { get; set; }
     }
 }
