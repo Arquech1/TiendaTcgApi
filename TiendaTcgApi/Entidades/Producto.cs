@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace TiendaTcgApi.Entidades
 {
@@ -8,5 +9,8 @@ namespace TiendaTcgApi.Entidades
 
         [Required]
         public required string nombre { get; set; }
+
+        [Unicode(false)]
+        public string? foto { get; set; }
     }
 }

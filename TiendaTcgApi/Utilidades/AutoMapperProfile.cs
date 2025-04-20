@@ -9,6 +9,10 @@ namespace TiendaTcgApi.Utilidades
         public AutoMapperProfile()
         {
             CreateMap<Producto, ProductoDTO>().ReverseMap();
+
+            CreateMap<ProductoConFotoDTO, Producto>()
+                .ForMember(dest => dest.foto, opt => opt.Ignore());
+                
         }
     }
     
