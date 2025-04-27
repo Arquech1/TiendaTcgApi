@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using TiendaTcgApi.Data;
+using TiendaTcgApi.Servicios;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
+
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.Services.AddIdentityCore<IdentityUser>()
@@ -24,6 +26,7 @@ builder.Services.AddIdentityCore<IdentityUser>()
 builder.Services.AddScoped<UserManager<IdentityUser>>();
 builder.Services.AddScoped<SignInManager<IdentityUser>>();
 
+builder.Services.AddTransient<IAlmacenadorArchivox, AlmacenadorDeArchivosLocal>();
 builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAuthentication().AddJwtBearer(options =>
@@ -46,6 +49,8 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
 var app = builder.Build();
 
 //Area de MiddleWares
+
+app.UseStaticFiles();
 
 app.MapControllers();
 
