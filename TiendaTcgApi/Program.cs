@@ -2,9 +2,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
 using TiendaTcgApi.Data;
 using TiendaTcgApi.Servicios;
+using TiendaTcgApi.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,13 +47,30 @@ builder.Services.AddAuthentication().AddJwtBearer(options =>
     };
 });
 
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
 
+        Name = "Authorization",
+        Type = SecuritySchemeType.ApiKey,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+    });
+
+    options.OperationFilter<FiltroAutorizacion>();
+});
 var app = builder.Build();
 
 //Area de MiddleWares
+app.UseSwagger();
 
+app.UseSwaggerUI();
 app.UseStaticFiles();
 
 app.MapControllers();
+
+
 
 app.Run();
