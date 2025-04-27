@@ -65,7 +65,50 @@ namespace TiendaTcgApi.Controllers
                 return RetornarLoginIncorrecto();
             }
         }
-
+        [HttpPost("hacer-admin")]
+        public async Task<ActionResult> HacerAdmin(EditarClaimDTO editarClaimDTO)
+        {
+            var usuario = await userManager.FindByEmailAsync(editarClaimDTO.email);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+            var resultado = await userManager.AddClaimAsync(usuario, new Claim("esadmin", "1"));
+            if (resultado.Succeeded)
+            {
+                return Ok();
+            }
+            else
+            {
+                foreach (var error in resultado.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return ValidationProblem();
+            }
+        }
+        [HttpPost("remover-admin")]
+        public async Task<ActionResult> RemoverAdmin(EditarClaimDTO editarClaimDTO)
+        {
+            var usuario = await userManager.FindByEmailAsync(editarClaimDTO.email);
+            if (usuario == null)
+            {
+                return NotFound();
+            }
+            var resultado = await userManager.RemoveClaimAsync(usuario, new Claim("esadmin", "1"));
+            if (resultado.Succeeded)
+            {
+                return Ok();
+            }
+            else
+            {
+                foreach (var error in resultado.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return ValidationProblem();
+            }
+        }
         private ActionResult RetornarLoginIncorrecto()
         {
             ModelState.AddModelError(string.Empty, "Login incorrecto");

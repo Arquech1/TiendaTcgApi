@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TiendaTcgApi.Data;
@@ -10,6 +11,7 @@ namespace TiendaTcgApi.Controllers
 {
     [ApiController]
     [Route("productos")]
+    [Authorize(Policy = "esadmin")]
     public class ProductosController : ControllerBase
     {
         private readonly AppDbContext context;
@@ -26,6 +28,7 @@ namespace TiendaTcgApi.Controllers
 
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IEnumerable<Producto>> Get()
         {
             var productos = await context.Productos.ToListAsync();
@@ -35,6 +38,7 @@ namespace TiendaTcgApi.Controllers
         }
 
         [HttpGet("{id:int}", Name = "ObtenerProducto")]
+        [AllowAnonymous]
         public async Task<ActionResult<Producto>> GetId(int id)
         {
             var producto = await context.Productos.FirstOrDefaultAsync(x => x.id == id);
