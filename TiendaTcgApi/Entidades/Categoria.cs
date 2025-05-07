@@ -7,6 +7,8 @@ namespace TiendaTcgApi.Entidades
         public int id { get; set; }
         [Required]
         public required string nombre { get; set; }
-        public List<Producto> productos { get; set; } = new List<Producto>();
+
+        public ICollection<Producto> Productos { get; set; } 
+
     }
 }

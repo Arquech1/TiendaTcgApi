@@ -15,6 +15,17 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 builder.Services.AddControllers();
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(opcionesCors =>
+    {
+        opcionesCors.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .WithExposedHeaders("cantidadTotalRegistros");
+    });
+});
+
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(connectionString));
 
@@ -70,6 +81,15 @@ var app = builder.Build();
 
 //Area de MiddleWares
 app.UseSwagger();
+
+app.Use(async (context, next) =>
+{
+    context.Response.Headers.Append("mi-cabecera", "*");
+    
+    await next();
+});
+
+app.UseCors();
 
 app.UseSwaggerUI();
 app.UseStaticFiles();

@@ -17,7 +17,7 @@ namespace TiendaTcgApi.Entidades
         [Required]
         public int stock { get; set; }
 
-        public List<Categoria> categoria { get; set; } = new List<Categoria>();
+        public ICollection<Categoria> Categorias { get; set; }
 
         [Unicode(false)]
         public string? foto { get; set; }

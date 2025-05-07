@@ -6,6 +6,7 @@ using TiendaTcgApi.Data;
 using TiendaTcgApi.DTOS;
 using TiendaTcgApi.Entidades;
 using TiendaTcgApi.Servicios;
+using TiendaTcgApi.Utilidades;
 
 namespace TiendaTcgApi.Controllers
 {
@@ -32,7 +33,10 @@ namespace TiendaTcgApi.Controllers
         public async Task<IEnumerable<Producto>> Get()
         {
             var productos = await context.Productos.ToListAsync();
-
+            //var queryable = context.Productos.AsQueryable();
+            //await HttpContext.InsertarParametrosPaginacionEnCabecera(queryable);
+            //var autores = await queryable.OrderBy(x => x.nombre).Paginar(paginacionDTO).ToListAsync();
+            //var productosDTO = mapper.Map<List<ProductoDTO>>(autores);
             return productos;
 
         }
